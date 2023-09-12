@@ -9,10 +9,12 @@ import checkValidMove from "../utils/checkVaildMove";
 const BFS = () => {
   const [stateArray, setStateArray] = useState([[initialState]]);
   const [level, setLevel] = useState(0);
+  const [count, setCount] = useState(0);
 
   const reset = () => {
     setStateArray([[initialState]]);
     setLevel(0);
+    setCount(0);
   };
 
   const checkRecursiveOrNot = (stateToCheck, levelArray) => {
@@ -37,6 +39,7 @@ const BFS = () => {
     const tempLevel = level + 1;
     let levelArray = [];
     let childIndex = 0;
+    let tempCount = count;
 
     let previousStates = [...stateArray[level]];
 
@@ -64,6 +67,8 @@ const BFS = () => {
         childIndex++;
         newState.id = `${state.id}${childIndex}`;
         newState.parentId = `${state.id}`;
+        tempCount++;
+        newState.count = tempCount;
         levelArray.push(newState);
       }
 
@@ -86,6 +91,8 @@ const BFS = () => {
         childIndex++;
         newState.id = `${state.id}${childIndex}`;
         newState.parentId = `${state.id}`;
+        tempCount++;
+        newState.count = tempCount;
         levelArray.push(newState);
       }
 
@@ -109,6 +116,8 @@ const BFS = () => {
           childIndex++;
           newState.id = `${state.id}${childIndex}`;
           newState.parentId = `${state.id}`;
+          tempCount++;
+          newState.count = tempCount;
           levelArray.push(newState);
         }
       }
@@ -132,6 +141,8 @@ const BFS = () => {
         childIndex++;
         newState.id = `${state.id}${childIndex}`;
         newState.parentId = `${state.id}`;
+        tempCount++;
+        newState.count = tempCount;
         levelArray.push(newState);
       }
     });
@@ -142,6 +153,7 @@ const BFS = () => {
       return newArray;
     });
 
+    setCount(tempCount);
     setLevel(tempLevel);
   };
 
@@ -158,11 +170,11 @@ const BFS = () => {
       </div>
 
       <ArcherContainer strokeColor="black" startMarker={true} endMarker={false}>
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div className="states-container">
           {stateArray.map((states, i) => (
             <div key={i}>
               {states.map((item, j) => (
-                <div style={{ margin: "30px 40px" }} key={j}>
+                <div className="state-container" key={j}>
                   <ArcherElement
                     id={item.id}
                     relations={[
@@ -180,6 +192,7 @@ const BFS = () => {
                       <Board state={item} />
                     </div>
                   </ArcherElement>
+                  <h5 className="label">{item.count}</h5>
                 </div>
               ))}
             </div>

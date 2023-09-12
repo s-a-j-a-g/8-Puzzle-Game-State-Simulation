@@ -68,6 +68,19 @@ code {
   justify-content: center;
 }
 
+.states-container {
+  display: flex;
+  align-items: center;
+  min-height: 55vh;
+}
+
+.state-container {
+  margin: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .board-row {
   display: flex;
 }

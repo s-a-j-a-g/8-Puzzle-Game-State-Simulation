@@ -29,19 +29,11 @@ const DFS = () => {
       />
 
       <ArcherContainer strokeColor="black" startMarker={true} endMarker={false}>
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div className="states-container">
           {stateArray.map((states, i) => (
             <div key={i}>
               {states.map((item, j) => (
-                <div
-                  style={{
-                    margin: "30px 40px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                  key={j}
-                >
+                <div className="state-container" key={j}>
                   <ArcherElement
                     id={item.id}
                     relations={[
