@@ -2,7 +2,7 @@ import { Switch } from "@mui/material";
 import { useContext } from "react";
 import GlobalContext from "../context/GlobalContext";
 
-const Header = ({ generatePossibleState, reset, level }) => {
+const Header = ({ generatePossibleState, reset, showGenerateButton }) => {
   const { bfs, setBFS } = useContext(GlobalContext);
 
   const handelToggle = () => {
@@ -11,11 +11,16 @@ const Header = ({ generatePossibleState, reset, level }) => {
 
   return (
     <div className="content">
-      <h1 className="title">8 Puzzle Game State Simulation</h1>
+      <div className="title-wrapper">
+        <h1 className="title">8 Puzzle Game State Simulation</h1>
+        <h2 className="title">{`(${bfs ? `BFS` : `DFS`})`}</h2>
+      </div>
       <div>
-        <button className="button" onClick={generatePossibleState}>
-          Next
-        </button>
+        {showGenerateButton && (
+          <button className="button" onClick={generatePossibleState}>
+            {bfs ? "Next" : "Generate"}
+          </button>
+        )}
         <button
           className="button"
           style={{ backgroundColor: "#DD5555" }}
@@ -24,7 +29,8 @@ const Header = ({ generatePossibleState, reset, level }) => {
           Reset
         </button>
       </div>
-      <div style={{ display: "flex", alignItems: "center" }}>
+
+      <div className="toggle-switch">
         <h3>DFS</h3>
         <Switch
           checked={bfs}
@@ -33,7 +39,6 @@ const Header = ({ generatePossibleState, reset, level }) => {
         />
         <h3>BFS</h3>
       </div>
-      <h3>{`Level: ${level}`}</h3>
     </div>
   );
 };

@@ -9,3 +9,11 @@ export const finalNumbers = [
   [2, 6, 4],
   [1, 7, 5],
 ];
+
+export const initialState = {
+  numbers: initialNumbers,
+  id: "1",
+  parentId: "",
+  transition: "",
+  isRecursive: false,
+};

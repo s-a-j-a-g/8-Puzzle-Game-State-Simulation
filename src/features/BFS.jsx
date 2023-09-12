@@ -22,10 +22,6 @@ const BFS = () => {
     setLevel(0);
   };
 
-  // for (let i = 0; i <= 4; i++) {
-  //   console.log(stateArray);
-  // }
-
   const checkValidMove = (board, move) => {
     let possibleI, possibleJ;
 
@@ -206,21 +202,23 @@ const BFS = () => {
         generatePossibleState={generatePossibleState}
         reset={reset}
         level={level}
+        showGenerateButton={true}
       />
-      <h1>BFS</h1>
-
-      <ArcherContainer
-        strokeColor="black"
-        // noCurves={true}
-        startMarker={true}
-        endMarker={false}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
       >
+        <h3>{`Level: ${level}`}</h3>
+      </div>
+
+      <ArcherContainer strokeColor="black" startMarker={true} endMarker={false}>
         <div style={{ display: "flex", alignItems: "center" }}>
           {stateArray.map((states, i) => (
             <div key={i}>
               {states.map((item, j) => (
                 <div style={{ margin: "30px 40px" }} key={j}>
-                  {/* {item.parentId !== "" && ( */}
                   <ArcherElement
                     id={item.id}
                     relations={[
@@ -238,12 +236,6 @@ const BFS = () => {
                       <Board state={item} />
                     </div>
                   </ArcherElement>
-                  {/* // )} */}
-                  {/* {item.parentId === "" && (
-                    <div>
-                      <Board state={item} />
-                    </div>
-                  )} */}
                 </div>
               ))}
             </div>

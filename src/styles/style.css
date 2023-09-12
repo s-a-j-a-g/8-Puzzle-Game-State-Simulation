@@ -23,11 +23,18 @@ code {
   align-items: center;
 }
 
+.title-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+
 .title {
   font-family: "Rubik Iso", cursive;
   font-size: 55px;
+  margin: 0;
 }
-
 
 .button {
   width: 100px;
@@ -71,4 +78,12 @@ code {
   align-items: center;
   justify-content: center;
   font-weight: 600;
+}
+
+.toggle-switch {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 40px;
+  top: 10px;
 }
