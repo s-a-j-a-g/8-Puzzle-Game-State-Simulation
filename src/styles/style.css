@@ -60,9 +60,12 @@ code {
   display: flex;
   flex-direction: column;
   background-color: black;
-  /* padding: 2px; */
   padding: 1px 1px 2px 2px;
-  /* margin: 5px; */
+}
+
+.level-container {
+  display: flex;
+  justify-content: center;
 }
 
 .board-row {
@@ -78,6 +81,11 @@ code {
   align-items: center;
   justify-content: center;
   font-weight: 600;
+}
+
+.label {
+  margin: 0;
+  margin-top: 10px;
 }
 
 .toggle-switch {

@@ -33,7 +33,15 @@ const DFS = () => {
           {stateArray.map((states, i) => (
             <div key={i}>
               {states.map((item, j) => (
-                <div style={{ margin: "30px 40px" }} key={j}>
+                <div
+                  style={{
+                    margin: "30px 40px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                  key={j}
+                >
                   <ArcherElement
                     id={item.id}
                     relations={[
@@ -51,6 +59,7 @@ const DFS = () => {
                       <Board state={item} />
                     </div>
                   </ArcherElement>
+                  <h5 className="label">{item.count}</h5>
                 </div>
               ))}
             </div>

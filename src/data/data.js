@@ -16,4 +16,5 @@ export const initialState = {
   parentId: "",
   transition: "",
   isRecursive: false,
+  count: 0,
 };

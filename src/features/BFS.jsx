@@ -2,68 +2,17 @@ import { useState } from "react";
 import Board from "../components/Board";
 import Header from "../components/Header";
 import checkArrayEqual from "../utils/checkArrayEqual";
-import { initialNumbers } from "../data/data";
+import { initialState } from "../data/data";
 import { ArcherContainer, ArcherElement } from "react-archer";
+import checkValidMove from "../utils/checkVaildMove";
 
 const BFS = () => {
-  const initialState = {
-    numbers: initialNumbers,
-    id: "1",
-    parentId: "",
-    transition: "",
-    isRecursive: false,
-  };
-
   const [stateArray, setStateArray] = useState([[initialState]]);
   const [level, setLevel] = useState(0);
 
   const reset = () => {
     setStateArray([[initialState]]);
     setLevel(0);
-  };
-
-  const checkValidMove = (board, move) => {
-    let possibleI, possibleJ;
-
-    for (let i = 0; i <= 2; i++) {
-      for (let j = 0; j <= 2; j++) {
-        if (board[i][j] === null) {
-          if (move === "L") {
-            possibleJ = j - 1;
-            if (possibleJ >= 0) {
-              return {
-                currentPosition: { i, j },
-                nextPosition: { i, possibleJ },
-              };
-            }
-          } else if (move === "U") {
-            possibleI = i - 1;
-            if (possibleI >= 0) {
-              return {
-                currentPosition: { i, j },
-                nextPosition: { possibleI, j },
-              };
-            }
-          } else if (move === "D") {
-            possibleI = i + 1;
-            if (possibleI <= 2) {
-              return {
-                currentPosition: { i, j },
-                nextPosition: { possibleI, j },
-              };
-            }
-          } else if (move === "R") {
-            possibleJ = j + 1;
-            if (possibleJ <= 2) {
-              return {
-                currentPosition: { i, j },
-                nextPosition: { i, possibleJ },
-              };
-            }
-          }
-        }
-      }
-    }
   };
 
   const checkRecursiveOrNot = (stateToCheck, levelArray) => {
@@ -204,12 +153,7 @@ const BFS = () => {
         level={level}
         showGenerateButton={true}
       />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      <div className="level-container">
         <h3>{`Level: ${level}`}</h3>
       </div>
 

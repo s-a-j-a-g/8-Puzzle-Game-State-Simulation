@@ -5,9 +5,10 @@ import checkValidMove from "./checkVaildMove";
 
 let tempArray = [[initialState]];
 let finalStateFound = false;
+let count = 0;
 
 const performL = (state) => {
-  if (state.isRecursive) return;
+  if (state.isRecursive || finalStateFound) return;
   let result, newState, isRecursive;
 
   const arrayLevel = state.id.length;
@@ -15,6 +16,7 @@ const performL = (state) => {
 
   result = checkValidMove(state.numbers, "L");
   if (result) {
+    count++;
     let { currentPosition, nextPosition } = result;
     newState = structuredClone(state);
     newState.numbers[currentPosition.i][currentPosition.j] =
@@ -28,6 +30,8 @@ const performL = (state) => {
     newState.transition = "L";
     newState.id = `${state.id}${childIndex}`;
     newState.parentId = `${state.id}`;
+
+    newState.count = count;
 
     const newArray = [...tempArray];
     newArray[arrayLevel]
@@ -46,7 +50,7 @@ const performL = (state) => {
 };
 
 const performU = (state) => {
-  if (state.isRecursive) return;
+  if (state.isRecursive || finalStateFound) return;
   let result, newState, isRecursive;
 
   const arrayLevel = state.id.length;
@@ -54,6 +58,7 @@ const performU = (state) => {
 
   result = checkValidMove(state.numbers, "U");
   if (result) {
+    count++;
     let { currentPosition, nextPosition } = result;
 
     newState = structuredClone(state);
@@ -70,6 +75,8 @@ const performU = (state) => {
     newState.transition = "U";
     newState.id = `${state.id}${childIndex}`;
     newState.parentId = `${state.id}`;
+
+    newState.count = count;
 
     const newArray = [...tempArray];
     newArray[arrayLevel]
@@ -88,7 +95,7 @@ const performU = (state) => {
 };
 
 const performD = (state) => {
-  if (state.isRecursive) return;
+  if (state.isRecursive || finalStateFound) return;
   let result, newState, isRecursive;
 
   const arrayLevel = state.id.length;
@@ -96,6 +103,7 @@ const performD = (state) => {
 
   result = checkValidMove(state.numbers, "D");
   if (result) {
+    count++;
     let { currentPosition, nextPosition } = result;
 
     newState = structuredClone(state);
@@ -112,6 +120,8 @@ const performD = (state) => {
     newState.transition = "D";
     newState.id = `${state.id}${childIndex}`;
     newState.parentId = `${state.id}`;
+
+    newState.count = count;
 
     const newArray = [...tempArray];
     newArray[arrayLevel]
@@ -130,7 +140,7 @@ const performD = (state) => {
 };
 
 const performR = (state) => {
-  if (state.isRecursive) return;
+  if (state.isRecursive || finalStateFound) return;
   let result, newState, isRecursive;
 
   const arrayLevel = state.id.length;
@@ -138,6 +148,7 @@ const performR = (state) => {
 
   result = checkValidMove(state.numbers, "R");
   if (result) {
+    count++;
     let { currentPosition, nextPosition } = result;
 
     newState = structuredClone(state);
@@ -154,6 +165,8 @@ const performR = (state) => {
     newState.transition = "R";
     newState.id = `${state.id}${childIndex}`;
     newState.parentId = `${state.id}`;
+
+    newState.count = count;
 
     const newArray = [...tempArray];
     newArray[arrayLevel]
@@ -172,11 +185,10 @@ const performR = (state) => {
 };
 
 const generatePossibleState = (state) => {
-  console.log(finalStateFound);
   if (!finalStateFound) {
     performL(state);
     performU(state);
-    // performD(state);
+    performD(state);
     performR(state);
   }
 
