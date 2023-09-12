@@ -22,6 +22,10 @@ const BFS = () => {
     setLevel(0);
   };
 
+  // for (let i = 0; i <= 4; i++) {
+  //   console.log(stateArray);
+  // }
+
   const checkValidMove = (board, move) => {
     let possibleI, possibleJ;
 
