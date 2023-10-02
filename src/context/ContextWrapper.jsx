@@ -2,10 +2,10 @@ import GlobalContext from "./GlobalContext";
 import { useState } from "react";
 
 const ContextWrapper = (props) => {
-  const [bfs, setBFS] = useState(true);
+  const [algorithm, setAlgorithm] = useState("bfs");
 
   return (
-    <GlobalContext.Provider value={{ bfs, setBFS }}>
+    <GlobalContext.Provider value={{ algorithm, setAlgorithm }}>
       {props.children}
     </GlobalContext.Provider>
   );
