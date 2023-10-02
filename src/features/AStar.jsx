@@ -6,16 +6,19 @@ import { initialState } from "../data/data";
 import { ArcherContainer, ArcherElement } from "react-archer";
 import checkValidMove from "../utils/checkVaildMove";
 import calculateHeursitics from "../utils/calculateHeuristics";
+import { finalNumbers } from "../data/data";
 
 const AStar = () => {
   const [stateArray, setStateArray] = useState([[initialState]]);
   const [level, setLevel] = useState(0);
   const [count, setCount] = useState(0);
+  const [finalStateFound, setFinalStateFound] = useState(false);
 
   const reset = () => {
     setStateArray([[initialState]]);
     setLevel(0);
     setCount(0);
+    setFinalStateFound(false);
   };
 
   const checkRecursiveOrNot = (stateToCheck, levelArray) => {
@@ -37,6 +40,8 @@ const AStar = () => {
   };
 
   const generatePossibleState = () => {
+    if (finalStateFound) return;
+
     const tempLevel = level + 1;
     let levelArray = [];
     let childIndex = 0;
@@ -49,7 +54,6 @@ const AStar = () => {
     previousStates.forEach((state) => {
       if (state.gN + state.hN < min) min = state.gN + state.hN;
     });
-    console.log("Min = ", min);
 
     previousStates.forEach((state) => {
       if (state.isRecursive) return;
@@ -82,6 +86,11 @@ const AStar = () => {
         newState.gN = newState.id.length - 1;
         newState.hN = calculateHeursitics(newState.numbers);
         levelArray.push(newState);
+
+        if (checkArrayEqual(newState.numbers, finalNumbers)) {
+          setFinalStateFound(true);
+          return;
+        }
       }
 
       // Peform U
@@ -109,6 +118,11 @@ const AStar = () => {
         newState.gN = newState.id.length - 1;
         newState.hN = calculateHeursitics(newState.numbers);
         levelArray.push(newState);
+
+        if (checkArrayEqual(newState.numbers, finalNumbers)) {
+          setFinalStateFound(true);
+          return;
+        }
       }
 
       // Peform D
@@ -137,6 +151,11 @@ const AStar = () => {
           newState.gN = newState.id.length - 1;
           newState.hN = calculateHeursitics(newState.numbers);
           levelArray.push(newState);
+
+          if (checkArrayEqual(newState.numbers, finalNumbers)) {
+            setFinalStateFound(true);
+            return;
+          }
         }
       }
 
@@ -165,6 +184,11 @@ const AStar = () => {
         newState.gN = newState.id.length - 1;
         newState.hN = calculateHeursitics(newState.numbers);
         levelArray.push(newState);
+
+        if (checkArrayEqual(newState.numbers, finalNumbers)) {
+          setFinalStateFound(true);
+          return;
+        }
       }
     });
 
@@ -226,6 +250,11 @@ const AStar = () => {
           ))}
         </div>
       </ArcherContainer>
+
+      <div className="finalState">
+        <p className="aStarP">Final State</p>
+        <Board state={{ numbers: finalNumbers }} />
+      </div>
 
       <div className="aStarDefinition">
         <p className="aStarP">{`f(N) = g(N) + h(N), where`}</p>

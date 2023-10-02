@@ -18,6 +18,7 @@ export const finalNumbers = [
   [7, 6, 5],
 ];
 
+const initalhN = calculateHeuristics(initialNumbers);
 export const initialState = {
   numbers: initialNumbers,
   id: "1",
@@ -26,6 +27,5 @@ export const initialState = {
   isRecursive: false,
   count: 0,
   gN: 0,
-  hN: 0,
-  // hN: calculateHeuristics(numbers),
+  hN: initalhN,
 };

@@ -4,7 +4,7 @@ import DFS from "./features/DFS";
 import GlobalContext from "./context/GlobalContext";
 import AStar from "./features/AStar";
 
-function App() {
+const App = () => {
   const { algorithm } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -15,7 +15,6 @@ function App() {
     };
   }, []);
 
-  // return <div className="container">{bfs ? <BFS /> : <DFS />}</div>;
   return (
     <div className="container">
       {algorithm === "aStar" && <AStar />}
@@ -23,6 +22,6 @@ function App() {
       {algorithm === "dfs" && <DFS />}
     </div>
   );
-}
+};
 
 export default App;

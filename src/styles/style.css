@@ -122,13 +122,21 @@ code {
   position: fixed;
   right: 0%;
   bottom: 0%;
-  /* width: 350px; */
-  /* height: 130px; */
   padding: 0px 9px;
   background-color: #edbaf2;
   border: 3px solid #000;
+  border-top-left-radius: 5px;
 }
 
 .aStarP {
   font-weight: 600;
+}
+
+.finalState {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  right: 3%;
+  top: 15%;
 }
