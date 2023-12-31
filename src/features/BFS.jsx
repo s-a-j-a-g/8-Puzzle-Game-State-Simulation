@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Board from "../components/Board";
 import Header from "../components/Header";
-import checkArrayEqual from "../utils/checkArrayEqual";
 import { initialState } from "../data/data";
 import { ArcherContainer, ArcherElement } from "react-archer";
 import checkValidMove from "../utils/checkVaildMove";
+import isRecursive from "../utils/checkRecursiveOrNot";
 
 const BFS = () => {
   const [stateArray, setStateArray] = useState([[initialState]]);
@@ -17,23 +17,7 @@ const BFS = () => {
     setCount(0);
   };
 
-  const checkRecursiveOrNot = (stateToCheck, levelArray) => {
-    for (const states of stateArray) {
-      for (const state of states) {
-        if (checkArrayEqual(state.numbers, stateToCheck)) {
-          return true;
-        }
-      }
-    }
-
-    for (const state of levelArray) {
-      if (checkArrayEqual(state.numbers, stateToCheck)) {
-        return true;
-      }
-    }
-
-    return false;
-  };
+  const transitions = ["L", "U", "D", "R"];
 
   const generatePossibleState = () => {
     const tempLevel = level + 1;
@@ -45,74 +29,31 @@ const BFS = () => {
 
     previousStates.forEach((state) => {
       if (state.isRecursive) return;
-      let result, newState, isRecursive;
+      let result, newState;
 
-      // Peform L
-      result = checkValidMove(state.numbers, "L");
+      for (const transition of transitions) {
+        result = checkValidMove(state.numbers, transition);
 
-      if (result) {
-        let { currentPosition, nextPosition } = result;
-
-        newState = structuredClone(state);
-
-        newState.numbers[currentPosition.i][currentPosition.j] =
-          newState.numbers[nextPosition.i][nextPosition.possibleJ];
-        newState.numbers[nextPosition.i][nextPosition.possibleJ] = null;
-
-        isRecursive = checkRecursiveOrNot(newState.numbers, levelArray);
-        if (isRecursive) {
-          newState.isRecursive = true;
-        }
-        newState.transition = "L";
-        childIndex++;
-        newState.id = `${state.id}${childIndex}`;
-        newState.parentId = `${state.id}`;
-        tempCount++;
-        newState.count = tempCount;
-        levelArray.push(newState);
-      }
-
-      // Peform U
-      result = checkValidMove(state.numbers, "U");
-      if (result) {
-        let { currentPosition, nextPosition } = result;
-
-        newState = structuredClone(state);
-
-        newState.numbers[currentPosition.i][currentPosition.j] =
-          newState.numbers[nextPosition.possibleI][nextPosition.j];
-        newState.numbers[nextPosition.possibleI][nextPosition.j] = null;
-
-        isRecursive = checkRecursiveOrNot(newState.numbers, levelArray);
-        if (isRecursive) {
-          newState.isRecursive = true;
-        }
-        newState.transition = "U";
-        childIndex++;
-        newState.id = `${state.id}${childIndex}`;
-        newState.parentId = `${state.id}`;
-        tempCount++;
-        newState.count = tempCount;
-        levelArray.push(newState);
-      }
-
-      // Peform D
-      result = checkValidMove(state.numbers, "D");
-      if (result) {
         if (result) {
           let { currentPosition, nextPosition } = result;
 
           newState = structuredClone(state);
 
-          newState.numbers[currentPosition.i][currentPosition.j] =
-            newState.numbers[nextPosition.possibleI][nextPosition.j];
-          newState.numbers[nextPosition.possibleI][nextPosition.j] = null;
-
-          isRecursive = checkRecursiveOrNot(newState.numbers, levelArray);
-          if (isRecursive) {
-            newState.isRecursive = true;
+          if (transition === "L" || transition === "R") {
+            newState.numbers[currentPosition.i][currentPosition.j] =
+              newState.numbers[nextPosition.i][nextPosition.possibleJ];
+            newState.numbers[nextPosition.i][nextPosition.possibleJ] = null;
           }
-          newState.transition = "D";
+          if (transition === "U" || transition === "D") {
+            newState.numbers[currentPosition.i][currentPosition.j] =
+              newState.numbers[nextPosition.possibleI][nextPosition.j];
+            newState.numbers[nextPosition.possibleI][nextPosition.j] = null;
+          }
+
+          if (isRecursive(newState.numbers, stateArray, levelArray))
+            newState.isRecursive = true;
+
+          newState.transition = transition;
           childIndex++;
           newState.id = `${state.id}${childIndex}`;
           newState.parentId = `${state.id}`;
@@ -120,30 +61,6 @@ const BFS = () => {
           newState.count = tempCount;
           levelArray.push(newState);
         }
-      }
-
-      // Peform R
-      result = checkValidMove(state.numbers, "R");
-      if (result) {
-        let { currentPosition, nextPosition } = result;
-
-        newState = structuredClone(state);
-
-        newState.numbers[currentPosition.i][currentPosition.j] =
-          newState.numbers[nextPosition.i][nextPosition.possibleJ];
-        newState.numbers[nextPosition.i][nextPosition.possibleJ] = null;
-
-        isRecursive = checkRecursiveOrNot(newState.numbers, levelArray);
-        if (isRecursive) {
-          newState.isRecursive = true;
-        }
-        newState.transition = "R";
-        childIndex++;
-        newState.id = `${state.id}${childIndex}`;
-        newState.parentId = `${state.id}`;
-        tempCount++;
-        newState.count = tempCount;
-        levelArray.push(newState);
       }
     });
 
@@ -165,16 +82,16 @@ const BFS = () => {
         level={level}
         showGenerateButton={true}
       />
-      <div className="level-container">
+      <div className='level-container'>
         <h3>{`Level: ${level}`}</h3>
       </div>
 
-      <ArcherContainer strokeColor="black" startMarker={true} endMarker={false}>
-        <div className="states-container">
+      <ArcherContainer strokeColor='black' startMarker={true} endMarker={false}>
+        <div className='states-container'>
           {stateArray.map((states, i) => (
             <div key={i}>
               {states.map((item, j) => (
-                <div className="state-container" key={j}>
+                <div className='state-container' key={j}>
                   <ArcherElement
                     id={item.id}
                     relations={[
@@ -192,7 +109,7 @@ const BFS = () => {
                       <Board state={item} />
                     </div>
                   </ArcherElement>
-                  <h5 className="label">{item.count}</h5>
+                  <h5 className='label'>{item.count}</h5>
                 </div>
               ))}
             </div>

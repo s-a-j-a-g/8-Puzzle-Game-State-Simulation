@@ -12,10 +12,16 @@ export const initialNumbers = [
 //   [1, 7, 5],
 // ];
 
+// export const finalNumbers = [
+//   [1, 2, 3],
+//   [8, null, 4],
+//   [7, 6, 5],
+// ];
+
 export const finalNumbers = [
-  [1, 2, 3],
-  [8, null, 4],
-  [7, 6, 5],
+  [2, 8, 3],
+  [7, 1, 4],
+  [null, 6, 5],
 ];
 
 const initalhN = calculateHeuristics(initialNumbers);
